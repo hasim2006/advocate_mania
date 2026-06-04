@@ -3,13 +3,16 @@ import { Award, CheckCircle, Scale, ShieldAlert, ArrowRight } from 'lucide-react
 import './Hero.css';
 
 export default function Hero({ setActiveTab }) {
+  const advocateName = import.meta.env.VITE_ADVOCATE_NAME || 'Shivam Chaturvedi';
+  const nameUpper = advocateName.toUpperCase();
+
   return (
     <section className="hero">
       <div className="hero-container container">
         <div className="hero-content">
 
           <h1 className="hero-title">
-            Advocate <span className="highlight-text">Shivam Chaturvedi</span>
+            Advocate <span className="highlight-text">{advocateName}</span>
           </h1>
           <p className="hero-subtitle">
             Senior Counsel & Litigator practicing at Ballia District Courts, Uttar Pradesh. Committed to delivering strategic representation in Criminal Defense, Check Bounce Matters, Matrimonial Disputes, and Civil Litigation.
@@ -62,12 +65,12 @@ export default function Hero({ setActiveTab }) {
             <div className="photo-frame">
               <img 
                 src="/advocate.jpg" 
-                alt="Advocate Shivam Chaturvedi in Professional Robes" 
+                alt={`Advocate ${advocateName} in Professional Robes`} 
                 className="advocate-photo"
               />
               <div className="photo-glass-overlay">
                 <div className="overlay-content">
-                  <span className="overlay-title">SHIVAM CHATURVEDI</span>
+                  <span className="overlay-title">{nameUpper}</span>
                   <span className="overlay-subtitle">District & Sessions Court, Ballia</span>
                 </div>
               </div>

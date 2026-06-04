@@ -5,6 +5,14 @@ import './Navbar.css';
 export default function Navbar({ activeTab, setActiveTab, theme, toggleTheme }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const advocateName = import.meta.env.VITE_ADVOCATE_NAME || 'Shivam Chaturvedi';
+  const advocatePhone = import.meta.env.VITE_ADVOCATE_PHONE || '+91 75100 91599';
+  const advocatePhoneRaw = import.meta.env.VITE_ADVOCATE_PHONE_RAW || '7510091599';
+
+  const nameParts = advocateName.split(' ');
+  const firstName = nameParts[0].toUpperCase();
+  const lastNameTitle = (nameParts.slice(1).join(' ') + ' LAW CHAMBERS').toUpperCase();
+
   const navItems = [
     { id: 'home', label: 'Home' },
     { id: 'practice', label: 'Practice Areas' },
@@ -27,8 +35,8 @@ export default function Navbar({ activeTab, setActiveTab, theme, toggleTheme }) 
             <Shield className="logo-icon" size={24} />
           </div>
           <div className="logo-text">
-            <span className="logo-title">SHIVAM</span>
-            <span className="logo-subtitle">CHATURVEDI LAW CHAMBERS</span>
+            <span className="logo-title">{firstName}</span>
+            <span className="logo-subtitle">{lastNameTitle}</span>
           </div>
         </div>
 
@@ -56,9 +64,9 @@ export default function Navbar({ activeTab, setActiveTab, theme, toggleTheme }) 
             {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
           </button>
           
-          <a href="tel:+917510091599" className="btn btn-primary nav-cta">
+          <a href={`tel:+91${advocatePhoneRaw}`} className="btn btn-primary nav-cta">
             <PhoneCall size={16} />
-            <span>+91 75100 91599</span>
+            <span>{advocatePhone}</span>
           </a>
 
           <button 
@@ -83,9 +91,9 @@ export default function Navbar({ activeTab, setActiveTab, theme, toggleTheme }) 
               {item.label}
             </button>
           ))}
-          <a href="tel:+917510091599" className="btn btn-primary mobile-cta">
+          <a href={`tel:+91${advocatePhoneRaw}`} className="btn btn-primary mobile-cta">
             <PhoneCall size={16} />
-            <span>Call: +91 75100 91599</span>
+            <span>Call: {advocatePhone}</span>
           </a>
         </div>
       </div>

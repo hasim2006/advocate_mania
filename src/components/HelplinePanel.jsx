@@ -6,6 +6,10 @@ export default function HelplinePanel() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('call'); // 'call' or 'chat'
   
+  const advocateName = import.meta.env.VITE_ADVOCATE_NAME || 'Shivam Chaturvedi';
+  const advocatePhone = import.meta.env.VITE_ADVOCATE_PHONE || '+91 75100 91599';
+  const advocatePhoneRaw = import.meta.env.VITE_ADVOCATE_PHONE_RAW || '7510091599';
+
   // Callback form state
   const [cbName, setCbName] = useState('');
   const [cbPhone, setCbPhone] = useState('');
@@ -14,7 +18,7 @@ export default function HelplinePanel() {
 
   // Chatbot state
   const [chatMessages, setChatMessages] = useState([
-    { sender: 'bot', text: 'Namaste! Welcome to Shivam Chaturvedi Law Chambers. How can we assist you with your legal matters today?' }
+    { sender: 'bot', text: `Namaste! Welcome to ${import.meta.env.VITE_ADVOCATE_NAME || 'Shivam Chaturvedi'} Law Chambers. How can we assist you with your legal matters today?` }
   ]);
   const [userMsg, setUserMsg] = useState('');
 
@@ -80,27 +84,27 @@ export default function HelplinePanel() {
       if (articleMatch) {
         const artNum = parseInt(articleMatch[2], 10);
         if (artNum === 14) {
-          botResponse = "Article 14 of the Constitution of India guarantees 'Equality before Law' and 'Equal Protection of Laws' within the territory of India. It prohibits discrimination on arbitrary grounds and ensures reasonable classification in state actions. We invoke Article 14 in writ petitions challenging arbitrary government decisions.";
+          botResponse = `Article 14 of the Constitution of India guarantees 'Equality before Law' and 'Equal Protection of Laws' within the territory of India. It prohibits discrimination on arbitrary grounds and ensures reasonable classification in state actions. We invoke Article 14 in writ petitions challenging arbitrary government decisions.`;
         } else if (artNum === 19) {
-          botResponse = "Article 19 guarantees six basic freedoms: Freedom of Speech and Expression, Assembly, Association, Movement, Residence, and Practice of any Profession/Trade. These rights are subject to reasonable restrictions like public order, decency, and national security.";
+          botResponse = `Article 19 guarantees six basic freedoms: Freedom of Speech and Expression, Assembly, Association, Movement, Residence, and Practice of any Profession/Trade. These rights are subject to reasonable restrictions like public order, decency, and national security.`;
         } else if (artNum === 21) {
-          botResponse = "Article 21 guarantees the 'Protection of Life and Personal Liberty' stating that no person shall be deprived of their life or personal liberty except according to procedure established by law. The Supreme Court has expanded this to include the right to privacy, clean environment, livelihood, free legal aid, and speedy trial. It is the cornerstone of constitutional defense.";
+          botResponse = `Article 21 guarantees the 'Protection of Life and Personal Liberty' stating that no person shall be deprived of their life or personal liberty except according to procedure established by law. The Supreme Court has expanded this to include the right to privacy, clean environment, livelihood, free legal aid, and speedy trial. It is the cornerstone of constitutional defense.`;
         } else if (artNum === 22) {
-          botResponse = "Article 22 protects against arbitrary arrest and detention. It ensures that an arrested person must be informed of the grounds of arrest, has the right to consult a legal practitioner of choice, and must be produced before a Magistrate within 24 hours of arrest. We heavily rely on this for criminal defense representation.";
+          botResponse = `Article 22 protects against arbitrary arrest and detention. It ensures that an arrested person must be informed of the grounds of arrest, has the right to consult a legal practitioner of choice, and must be produced before a Magistrate within 24 hours of arrest. We heavily rely on this for criminal defense representation.`;
         } else if (artNum === 32) {
-          botResponse = "Article 32 gives citizens the 'Right to Constitutional Remedies' by allowing them to petition the Supreme Court of India directly for the enforcement of Fundamental Rights. Under this, the SC can issue writs like Habeas Corpus, Mandamus, Certiorari, Prohibition, and Quo Warranto. Dr. B.R. Ambedkar called it the 'Heart and Soul' of the Constitution.";
+          botResponse = `Article 32 gives citizens the 'Right to Constitutional Remedies' by allowing them to petition the Supreme Court of India directly for the enforcement of Fundamental Rights. Under this, the SC can issue writs like Habeas Corpus, Mandamus, Certiorari, Prohibition, and Quo Warranto. Dr. B.R. Ambedkar called it the 'Heart and Soul' of the Constitution.`;
         } else if (artNum === 44) {
-          botResponse = "Article 44 is a Directive Principle of State Policy (DPSP) that directs the State to secure a Uniform Civil Code (UCC) for all citizens throughout the territory of India, aiming to replace diverse personal laws with a unified set of family laws.";
+          botResponse = `Article 44 is a Directive Principle of State Policy (DPSP) that directs the State to secure a Uniform Civil Code (UCC) for all citizens throughout the territory of India, aiming to replace diverse personal laws with a unified set of family laws.`;
         } else if (artNum === 226) {
-          botResponse = "Article 226 empowers the High Courts to issue writs (Habeas Corpus, Mandamus, Certiorari, etc.) for the enforcement of Fundamental Rights and for 'any other purpose' (legal rights violation). It is much broader in scope than Article 32. We draft and file Writ Petitions under Article 226 for administrative and civil remedy claims.";
+          botResponse = `Article 226 empowers the High Courts to issue writs (Habeas Corpus, Mandamus, Certiorari, etc.) for the enforcement of Fundamental Rights and for 'any other purpose' (legal rights violation). It is much broader in scope than Article 32. We draft and file Writ Petitions under Article 226 for administrative and civil remedy claims.`;
         } else if (artNum === 227) {
-          botResponse = "Article 227 vests superintendence power over all subordinate courts and tribunals in the High Court. We file petitions under Article 227 to challenge interlocutory orders, jurisdictional errors, or delays in lower courts (like the Civil and Family Courts in Ballia).";
+          botResponse = `Article 227 vests superintendence power over all subordinate courts and tribunals in the High Court. We file petitions under Article 227 to challenge interlocutory orders, jurisdictional errors, or delays in lower courts (like the Civil and Family Courts in Ballia).`;
         } else if (artNum === 300 || typedMsg.includes('300a')) {
-          botResponse = "Article 300A protects the 'Right to Property' by declaring that no person shall be deprived of their property save by authority of law. While no longer a Fundamental Right, it remains a vital Constitutional Right frequently invoked in land acquisition, partition, and mutation disputes.";
+          botResponse = `Article 300A protects the 'Right to Property' by declaring that no person shall be deprived of their property save by authority of law. While no longer a Fundamental Right, it remains a vital Constitutional Right frequently invoked in land acquisition, partition, and mutation disputes.`;
         } else if (artNum === 311) {
-          botResponse = "Article 311 provides constitutional protection to civil servants of the Union or States. It ensures they cannot be dismissed or reduced in rank by an authority subordinate to that by which they were appointed, and only after an inquiry where they are informed of charges. We represent government employees in departmental inquiry disputes.";
+          botResponse = `Article 311 provides constitutional protection to civil servants of the Union or States. It ensures they cannot be dismissed or reduced in rank by an authority subordinate to that by which they were appointed, and only after an inquiry where they are informed of charges. We represent government employees in departmental inquiry disputes.`;
         } else if (artNum === 370) {
-          botResponse = "Article 370 formerly granted temporary special status to the state of Jammu & Kashmir. In August 2019, the President of India issued orders rendering all provisions of Article 370 inoperative, thereby integrating J&K fully with the rest of India. This was upheld by the Supreme Court of India.";
+          botResponse = `Article 370 formerly granted temporary special status to the state of Jammu & Kashmir. In August 2019, the President of India issued orders rendering all provisions of Article 370 inoperative, thereby integrating J&K fully with the rest of India. This was upheld by the Supreme Court of India.`;
         } else {
           let partName = "";
           let partTopic = "";
@@ -165,16 +169,16 @@ export default function HelplinePanel() {
             partName = "Part XXII";
             partTopic = "Short Title, Commencement, and Repeals of the Constitution";
           }
-          botResponse = `Article ${artNum} of the Constitution of India is located within ${partName}, which governs "${partTopic}". Advocate Shivam Chaturvedi handles writ petitions and legal disputes that challenge state actions invoking these Article rights in High Courts.`;
+          botResponse = `Article ${artNum} of the Constitution of India is located within ${partName}, which governs "${partTopic}". Advocate ${advocateName} handles writ petitions and legal disputes that challenge state actions invoking these Article rights in High Courts.`;
         }
       } else if (typedMsg.includes('constitution') || typedMsg.includes('preamble') || typedMsg.includes('fundamental right') || typedMsg.includes('directive principle') || typedMsg.includes('dpsp') || typedMsg.includes('citizen') || typedMsg.includes('republic') || typedMsg.includes('democracy')) {
         botResponse = "The Constitution of India is the supreme law of India, establishing the political framework, government structure, powers, and duties of institutions, alongside setting out fundamental rights, directive principles, and duties of citizens. If you believe a state authority has violated your constitutional rights (such as liberty under Art 21 or equality under Art 14), we can file a Writ Petition under Article 226 in the High Court.";
       } else if (typedMsg.includes('bail') || typedMsg.includes('arrest') || typedMsg.includes('fir') || typedMsg.includes('police') || typedMsg.includes('jail') || typedMsg.includes('criminal') || typedMsg.includes('bns') || typedMsg.includes('bnss')) {
-        botResponse = 'For Criminal Defense, regular/anticipatory bail, and FIR quashing under the Bhartiya Nyaya Sanhita (BNS) / Bhartiya Nagarik Suraksha Sanhita (BNSS), Advocate Shivam Chaturvedi offers direct court representation in Ballia. In urgent arrest/bail scenarios, call +91 75100 91599 immediately.';
+        botResponse = `For Criminal Defense, regular/anticipatory bail, and FIR quashing under the Bhartiya Nyaya Sanhita (BNS) / Bhartiya Nagarik Suraksha Sanhita (BNSS), Advocate ${advocateName} offers direct court representation in Ballia. In urgent arrest/bail scenarios, call ${advocatePhone} immediately.`;
       } else if (typedMsg.includes('check') || typedMsg.includes('bounce') || typedMsg.includes('cheque') || typedMsg.includes('138') || typedMsg.includes('ni act')) {
         botResponse = 'Under Section 138 of the Negotiable Instruments Act, check bounce is a criminal offense. A statutory demand notice must be served within 30 days of receiving the bank memo. If unpaid within 15 days, a complaint can be filed in court. We manage both recovery prosecution and defense.';
       } else if (typedMsg.includes('divorce') || typedMsg.includes('matrimonial') || typedMsg.includes('marriage') || typedMsg.includes('wife') || typedMsg.includes('husband') || typedMsg.includes('family') || typedMsg.includes('domestic violence') || typedMsg.includes('dv') || typedMsg.includes('dowry')) {
-        botResponse = 'Matrimonial disputes (divorce, custody, and domestic violence) are sensitive matters governed by the Hindu Marriage Act, 1955 or Special Marriage Acts. Advocate Shivam Chaturvedi offers confidential legal counseling and representation in Family Court, Ballia.';
+        botResponse = `Matrimonial disputes (divorce, custody, and domestic violence) are sensitive matters governed by the Hindu Marriage Act, 1955 or Special Marriage Acts. Advocate ${advocateName} offers confidential legal counseling and representation in Family Court, Ballia.`;
       } else if (typedMsg.includes('maintenance') || typedMsg.includes('alimony') || typedMsg.includes('125')) {
         botResponse = 'Spousal and child maintenance claims are filed under Section 125 of CrPC (BNSS Section 144) or under Hindu Marriage Act Section 24. We represent clients in securing monthly maintenance or defending against disproportionate claims in Family Courts.';
       } else if (typedMsg.includes('property') || typedMsg.includes('partition') || typedMsg.includes('land') || typedMsg.includes('civil') || typedMsg.includes('suit') || typedMsg.includes('rent') || typedMsg.includes('tenant') || typedMsg.includes('injunction') || typedMsg.includes('cpc') || typedMsg.includes('contract') || typedMsg.includes('agreement')) {
@@ -191,7 +195,7 @@ export default function HelplinePanel() {
         botResponse = 'Our chambers are located at "Chamber infront of jm 2 court, Ballia, Uttar Pradesh - 277001". We practice primarily at the Ballia District and Sessions Courts. You can visit us between 10 AM to 5 PM.';
       } else {
         const queryTopic = queryText.length > 25 ? queryText.substring(0, 25) + '...' : queryText;
-        botResponse = `Under Indian Civil/Criminal Jurisprudence, matters concerning "${queryTopic}" require fact-specific reviews. Advocate Shivam Chaturvedi can evaluate your case files to construct a strategic legal plan. Please click the button below to send this query directly to our WhatsApp.`;
+        botResponse = `Under Indian Civil/Criminal Jurisprudence, matters concerning "${queryTopic}" require fact-specific reviews. Advocate ${advocateName} can evaluate your case files to construct a strategic legal plan. Please click the button below to send this query directly to our WhatsApp.`;
       }
 
       setChatMessages((prev) => [
@@ -268,7 +272,7 @@ export default function HelplinePanel() {
                   <div className="callback-success">
                     <CheckCircle2 size={44} className="success-icon" />
                     <h5>Callback Registered!</h5>
-                    <p>Advocate Shivam Chaturvedi\'s chambers will call you back within 2 hours on your number.</p>
+                    <p>Advocate {advocateName}\'s chambers will call you back within 2 hours on your number.</p>
                     <button 
                       className="btn btn-secondary btn-sm" 
                       onClick={() => setCbSubmitted(false)}
@@ -330,8 +334,8 @@ export default function HelplinePanel() {
 
                     <div className="emergency-call-box">
                       <span>Or call directly for urgent bail:</span>
-                      <a href="tel:+917510091599" className="direct-call-link">
-                        <Phone size={14} /> +91 75100 91599
+                      <a href={`tel:+91${advocatePhoneRaw}`} className="direct-call-link">
+                        <Phone size={14} /> {advocatePhone}
                       </a>
                     </div>
                   </form>
@@ -354,7 +358,7 @@ export default function HelplinePanel() {
                         {msg.showWhatsapp && (
                           <button 
                             onClick={() => {
-                              const waUrl = `https://wa.me/917510091599?text=${encodeURIComponent(`Hello Advocate Shivam, I have a legal query: "${msg.queryText}"`)}`;
+                              const waUrl = `https://wa.me/91${advocatePhoneRaw}?text=${encodeURIComponent(`Hello Advocate Shivam, I have a legal query: "${msg.queryText}"`)}`;
                               window.open(waUrl, '_blank');
                             }}
                             className="chat-whatsapp-btn"
