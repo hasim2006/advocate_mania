@@ -1,0 +1,238 @@
+/* Global Page Layout Elements */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+}
+
+/* Legal Disclaimer Bar */
+.legal-disclaimer-bar {
+  background-color: #0c1821;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.78rem;
+  line-height: 1.4;
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid rgba(197, 168, 128, 0.2);
+  text-align: center;
+  z-index: 101;
+}
+
+.legal-disclaimer-bar strong {
+  color: var(--accent-color);
+}
+
+/* Footer Styles */
+.footer {
+  background-color: #0c1821;
+  color: #f8fafc;
+  padding: 4rem 0 2rem 0;
+  border-top: 1px solid rgba(197, 168, 128, 0.15);
+  text-align: left;
+  transition: background-color var(--transition-normal);
+}
+
+[data-theme="dark"] .footer {
+  background-color: #080b11;
+  border-top-color: rgba(255, 255, 255, 0.05);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1.5fr;
+  gap: 3.5rem;
+  margin-bottom: 3rem;
+}
+
+.footer-col h3 {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.footer-col h3::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 30px;
+  height: 2px;
+  background-color: var(--accent-color);
+}
+
+.footer-about p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+}
+
+.footer-socials {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-link {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.social-link:hover {
+  background-color: var(--accent-color);
+  color: #0c1821;
+  transform: translateY(-2px);
+}
+
+.footer-links-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer-link-btn {
+  text-align: left;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+  width: max-content;
+  transition: color var(--transition-fast);
+}
+
+.footer-link-btn:hover {
+  color: var(--accent-color);
+  padding-left: 2px;
+}
+
+.footer-disclaimer-text {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  padding-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-bottom p {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+}
+
+.footer-legal-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.legal-sub-link {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+}
+
+.legal-sub-link:hover {
+  color: var(--accent-color);
+}
+
+/* Cookie Consent Banner */
+.cookie-consent-overlay {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #0c1821;
+  border-top: 2px solid var(--accent-color);
+  color: #ffffff;
+  padding: 1.5rem 0;
+  z-index: 1000;
+  box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.4s ease;
+  text-align: left;
+}
+
+.cookie-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.cookie-text p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.88rem;
+  margin: 0 0 0.25rem 0;
+}
+
+.cookie-text span {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.cookie-actions {
+  display: flex;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* General Layout Section styling overrides */
+section {
+  position: relative;
+  transition: background-color var(--transition-normal);
+}
+
+/* Transitions for views */
+.fade-in-enter {
+  opacity: 0;
+}
+.fade-in-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in;
+}
+
+@media (max-width: 991px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  
+  .cookie-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.25rem;
+  }
+  
+  .cookie-actions {
+    justify-content: flex-end;
+  }
+}
