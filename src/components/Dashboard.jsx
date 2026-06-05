@@ -1,11 +1,61 @@
-import React, { useState, useEffect } from 'react';
-import { Users, FileText, CheckSquare, Calendar, MailOpen, Trash2, ArrowUpRight, BarChart2 } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Users, FileText, CheckSquare, Calendar, MailOpen, Trash2, ArrowUpRight, BarChart2, Lock } from 'lucide-react';
 import { safeGetJSON, safeSetJSON } from '../utils/storage';
 import './Dashboard.css';
 
+const DASHBOARD_PIN_KEY = 'advocate_dashboard_pin';
+const DEFAULT_PIN = '1234'; // Change this or move to env var in production
+
+// Default seed inquiries
+const defaultInquiries = [
+  {
+    id: 'seed-1',
+    name: 'Ravi Prakash Tiwari',
+    phone: '9845120367',
+    email: 'ravi.tiwari@gmail.com',
+    subject: 'Urgent Anticipatory Bail Query',
+    message: 'Need legal representation in an anticipated criminal matter. An FIR might be registered against us in Ballia. Please advise.',
+    date: '04 Jun 2026, 11:20 AM',
+    status: 'unread'
+  },
+  {
+    id: 'seed-2',
+    name: 'Priyanka Pandey',
+    phone: '9167234589',
+    email: 'priyapan@outlook.com',
+    subject: 'Matrimonial Maintenance Dispute',
+    message: 'Seeking legal assistance for filing maintenance and child custody petition. Want to understand Section 125 procedure.',
+    date: '03 Jun 2026, 04:15 PM',
+    status: 'resolved'
+  },
+  {
+    id: 'seed-3',
+    name: 'Manoj Kumar Gupta',
+    phone: '8877553311',
+    email: 'manoj.gupta@shoptail.com',
+    subject: 'Sec 138 Check Bounce notice query',
+    message: 'A client check of ₹3.5 Lakhs has bounced due to insufficient funds. The bank memo was received 10 days ago. Need to send legal notice.',
+    date: '02 Jun 2026, 09:30 AM',
+    status: 'unread'
+  }
+];
+
+const upcomingHearings = [
+  { id: 1, caseTitle: 'State of U.P. vs. Ramesh Yadav', court: 'Sessions Court, Ballia', date: '06 Jun 2026', time: '10:30 AM', type: 'Bail Hearing (BNS 115)' },
+  { id: 2, caseTitle: 'Karan Singh vs. Verma Traders', court: 'Chief Judicial Magistrate Court, Ballia', date: '09 Jun 2026', time: '11:45 AM', type: '138 NI Act (Cross-Examination)' },
+  { id: 3, caseTitle: 'Suman Gupta vs. Rajesh Gupta', court: 'Family Court, Ballia', date: '12 Jun 2026', time: '02:00 PM', type: 'Maintenance Petition (Sec 125)' },
+  { id: 4, caseTitle: 'Aditya Mishra vs. Nagar Palika Ballia', court: 'Civil Court (Senior Division), Ballia', date: '16 Jun 2026', time: '12:30 PM', type: 'Permanent Injunction Trial' }
+];
+
 export default function Dashboard() {
+  // Auth state
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [pinInput, setPinInput] = useState('');
+  const [authError, setAuthError] = useState('');
+
+  // Dashboard state (all hooks must be declared before any conditional return)
   const [inquiries, setInquiries] = useState([]);
-  const [activeTab, setActiveTab] = useState('inquiries'); // 'inquiries', 'calendar', 'analytics'
+  const [activeTab, setActiveTab] = useState('inquiries');
   const [metrics, setMetrics] = useState({
     totalInquiries: 0,
     activeCases: 28,
@@ -13,72 +63,48 @@ export default function Dashboard() {
     pendingHearings: 6
   });
 
-  const upcomingHearings = [
-    { id: 1, caseTitle: 'State of U.P. vs. Ramesh Yadav', court: 'Sessions Court, Ballia', date: '06 Jun 2026', time: '10:30 AM', type: 'Bail Hearing (BNS 115)' },
-    { id: 2, caseTitle: 'Karan Singh vs. Verma Traders', court: 'Chief Judicial Magistrate Court, Ballia', date: '09 Jun 2026', time: '11:45 AM', type: '138 NI Act (Cross-Examination)' },
-    { id: 3, caseTitle: 'Suman Gupta vs. Rajesh Gupta', court: 'Family Court, Ballia', date: '12 Jun 2026', time: '02:00 PM', type: 'Maintenance Petition (Sec 125)' },
-    { id: 4, caseTitle: 'Aditya Mishra vs. Nagar Palika Ballia', court: 'Civil Court (Senior Division), Ballia', date: '16 Jun 2026', time: '12:30 PM', type: 'Permanent Injunction Trial' }
-  ];
+  // Check session auth on mount
+  useEffect(() => {
+    const saved = sessionStorage.getItem(DASHBOARD_PIN_KEY);
+    if (saved === 'authenticated') setIsAuthenticated(true);
+  }, []);
 
-  // Default seed inquiries
-  const defaultInquiries = [
-    {
-      id: 'seed-1',
-      name: 'Ravi Prakash Tiwari',
-      phone: '9845120367',
-      email: 'ravi.tiwari@gmail.com',
-      subject: 'Urgent Anticipatory Bail Query',
-      message: 'Need legal representation in an anticipated criminal matter. An FIR might be registered against us in Ballia. Please advise.',
-      date: '04 Jun 2026, 11:20 AM',
-      status: 'unread'
-    },
-    {
-      id: 'seed-2',
-      name: 'Priyanka Pandey',
-      phone: '9167234589',
-      email: 'priyapan@outlook.com',
-      subject: 'Matrimonial Maintenance Dispute',
-      message: 'Seeking legal assistance for filing maintenance and child custody petition. Want to understand Section 125 procedure.',
-      date: '03 Jun 2026, 04:15 PM',
-      status: 'resolved'
-    },
-    {
-      id: 'seed-3',
-      name: 'Manoj Kumar Gupta',
-      phone: '8877553311',
-      email: 'manoj.gupta@shoptail.com',
-      subject: 'Sec 138 Check Bounce notice query',
-      message: 'A client check of ₹3.5 Lakhs has bounced due to insufficient funds. The bank memo was received 10 days ago. Need to send legal notice.',
-      date: '02 Jun 2026, 09:30 AM',
-      status: 'unread'
-    }
-  ];
-
-  const loadInquiries = () => {
+  const loadInquiries = useCallback(() => {
     let parsed = safeGetJSON('advocate_inquiries', null);
     if (parsed === null) {
       safeSetJSON('advocate_inquiries', defaultInquiries);
       parsed = defaultInquiries;
     }
     setInquiries(parsed);
-    
-    // Update metrics count
     setMetrics(prev => ({
       ...prev,
       totalInquiries: parsed.length
     }));
-  };
+  }, []);
 
   useEffect(() => {
+    if (!isAuthenticated) return;
     loadInquiries();
 
-    // Listen for custom submit events from ContactForm and Helpline callback widget
     const handleSync = () => {
       loadInquiries();
     };
     window.addEventListener('inquiry_submitted', handleSync);
     return () => window.removeEventListener('inquiry_submitted', handleSync);
-  }, []);
+  }, [isAuthenticated, loadInquiries]);
+
+  const handlePinSubmit = (e) => {
+    e.preventDefault();
+    setAuthError('');
+    const expectedPin = import.meta.env.VITE_DASHBOARD_PIN || DEFAULT_PIN;
+    if (pinInput === expectedPin) {
+      setIsAuthenticated(true);
+      sessionStorage.setItem(DASHBOARD_PIN_KEY, 'authenticated');
+    } else {
+      setAuthError('Incorrect PIN. Please try again.');
+      setPinInput('');
+    }
+  };
 
   const toggleInquiryStatus = (id) => {
     const updated = inquiries.map(inq => {
@@ -114,6 +140,34 @@ export default function Dashboard() {
   };
 
   const totalAnalytics = Object.values(analyticsData).reduce((a, b) => a + b, 0);
+
+  // Auth gate
+  if (!isAuthenticated) {
+    return (
+      <section className="dashboard-section" id="dashboard-section">
+        <div className="container" style={{ maxWidth: '420px', margin: '6rem auto', textAlign: 'center' }}>
+          <div style={{ padding: '3rem 2rem', backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-md)' }}>
+            <Lock size={40} style={{ color: 'var(--accent-color)', marginBottom: '1rem' }} />
+            <h2 style={{ fontFamily: 'var(--font-serif)', marginBottom: '0.5rem' }}>Dashboard Access</h2>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1.5rem' }}>Enter the practice PIN to access client inquiries and case analytics.</p>
+            <form onSubmit={handlePinSubmit}>
+              <input
+                type="password"
+                className="form-control"
+                placeholder="Enter PIN"
+                value={pinInput}
+                onChange={(e) => setPinInput(e.target.value)}
+                style={{ textAlign: 'center', fontSize: '1.2rem', letterSpacing: '0.3rem', marginBottom: '1rem' }}
+                autoFocus
+              />
+              {authError && <p style={{ color: '#c0392b', fontSize: '0.85rem', marginBottom: '0.75rem' }}>{authError}</p>}
+              <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>Unlock Dashboard</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="dashboard-section" id="dashboard-section">
