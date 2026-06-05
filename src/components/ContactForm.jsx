@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Phone, Mail, MapPin, Clock, ShieldCheck, CheckCircle } from 'lucide-react';
+import { safeGetJSON, safeSetJSON } from '../utils/storage';
 import './ContactForm.css';
 
 export default function ContactForm() {
@@ -56,8 +57,12 @@ export default function ContactForm() {
       status: 'unread'
     };
 
-    const existing = JSON.parse(localStorage.getItem('advocate_inquiries') || '[]');
-    localStorage.setItem('advocate_inquiries', JSON.stringify([newInquiry, ...existing]));
+    const existing = safeGetJSON('advocate_inquiries', []);
+    const saved = safeSetJSON('advocate_inquiries', [newInquiry, ...existing]);
+    if (!saved) {
+      setError('Failed to save inquiry. Storage may be full — please try again later.');
+      return;
+    }
 
     // Dispatch custom event to notify Dashboard if loaded
     window.dispatchEvent(new Event('inquiry_submitted'));
