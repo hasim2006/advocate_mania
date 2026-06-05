@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Phone, MessageSquare, X, Send, User, ChevronUp } from 'lucide-react';
+import { sanitizeText, isValidIndianPhone, sanitizeForUrl } from '../utils/sanitize';
 import './HelplinePanel.css';
 
 export default function HelplinePanel() {
@@ -33,17 +34,27 @@ export default function HelplinePanel() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const [cbError, setCbError] = useState('');
+
   const handleCallbackSubmit = (e) => {
     e.preventDefault();
-    if (!cbName || !cbPhone) return;
+    setCbError('');
+    if (!cbName.trim() || !cbPhone.trim()) {
+      setCbError('Please fill in your name and phone number.');
+      return;
+    }
+    if (!isValidIndianPhone(cbPhone)) {
+      setCbError('Please enter a valid 10-digit Indian mobile number.');
+      return;
+    }
 
     const newInquiry = {
       id: 'cb-' + Date.now(),
-      name: cbName,
-      phone: cbPhone,
+      name: sanitizeText(cbName),
+      phone: sanitizeText(cbPhone),
       email: 'Requested via Callback Widget',
-      subject: `Immediate Callback - ${cbType}`,
-      message: `Client requested a quick callback regarding ${cbType} matters. Contact ASAP.`,
+      subject: `Immediate Callback - ${sanitizeText(cbType)}`,
+      message: `Client requested a quick callback regarding ${sanitizeText(cbType)} matters. Contact ASAP.`,
       date: new Date().toLocaleDateString('en-IN', {
         day: '2-digit',
         month: 'short',
@@ -328,13 +339,15 @@ export default function HelplinePanel() {
                       </select>
                     </div>
 
+                    {cbError && <div className="form-error-banner" style={{ color: '#c0392b', fontSize: '0.85rem', marginBottom: '0.5rem' }}>{cbError}</div>}
+
                     <button type="submit" className="btn btn-primary w-full callback-submit-btn">
                       Request Call Back
                     </button>
 
                     <div className="emergency-call-box">
                       <span>Or call directly for urgent bail:</span>
-                      <a href={`tel:+91${advocatePhoneRaw}`} className="direct-call-link">
+                      <a href={`tel:+91${advocatePhoneRaw}`} className="direct-call-link" rel="noopener noreferrer">
                         <Phone size={14} /> {advocatePhone}
                       </a>
                     </div>
@@ -358,8 +371,8 @@ export default function HelplinePanel() {
                         {msg.showWhatsapp && (
                           <button 
                             onClick={() => {
-                              const waUrl = `https://wa.me/91${advocatePhoneRaw}?text=${encodeURIComponent(`Hello Advocate Shivam, I have a legal query: "${msg.queryText}"`)}`;
-                              window.open(waUrl, '_blank');
+                              const waUrl = `https://wa.me/91${advocatePhoneRaw}?text=${sanitizeForUrl(`Hello Advocate Shivam, I have a legal query: "${msg.queryText}"`)}`;
+                              window.open(waUrl, '_blank', 'noopener,noreferrer');
                             }}
                             className="chat-whatsapp-btn"
                           >
