@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Phone, MessageSquare, X, Send, User, ChevronUp } from 'lucide-react';
+import { safeGetJSON, safeSetJSON } from '../utils/storage';
 import { sanitizeText, isValidIndianPhone, sanitizeForUrl } from '../utils/sanitize';
 import './HelplinePanel.css';
 
@@ -66,8 +67,11 @@ export default function HelplinePanel() {
     };
 
     // Save to localStorage so it syncs with Dashboard!
-    const existing = JSON.parse(localStorage.getItem('advocate_inquiries') || '[]');
-    localStorage.setItem('advocate_inquiries', JSON.stringify([newInquiry, ...existing]));
+    const existing = safeGetJSON('advocate_inquiries', []);
+    if (!safeSetJSON('advocate_inquiries', [newInquiry, ...existing])) {
+      console.error('[HelplinePanel] Failed to persist callback request');
+      return;
+    }
 
     // Dispatch event to trigger dashboard update if it is open!
     window.dispatchEvent(new Event('inquiry_submitted'));

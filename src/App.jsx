@@ -7,6 +7,7 @@ import Dashboard from './components/Dashboard';
 import ContactForm from './components/ContactForm';
 import HelplinePanel from './components/HelplinePanel';
 import { Award, Briefcase, GraduationCap, Scale, ShieldAlert, CheckCircle2 } from 'lucide-react';
+import { safeGetItem, safeSetItem } from './utils/storage';
 import './App.css';
 
 export default function App() {
@@ -18,12 +19,12 @@ export default function App() {
   // Initialize Theme and Cookie Consent
   useEffect(() => {
     // Theme setup
-    const savedTheme = localStorage.getItem('advocate_theme') || 'light';
+    const savedTheme = safeGetItem('advocate_theme') || 'light';
     setTheme(savedTheme);
     document.documentElement.setAttribute('data-theme', savedTheme);
 
     // Cookie consent setup
-    const consent = localStorage.getItem('advocate_cookie_consent');
+    const consent = safeGetItem('advocate_cookie_consent');
     if (!consent) {
       // Show consent banner after a short delay
       setTimeout(() => setShowConsentBanner(true), 1500);
@@ -35,18 +36,18 @@ export default function App() {
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
-    localStorage.setItem('advocate_theme', newTheme);
+    safeSetItem('advocate_theme', newTheme);
     document.documentElement.setAttribute('data-theme', newTheme);
   };
 
   const handleAcceptCookies = () => {
-    localStorage.setItem('advocate_cookie_consent', 'accepted');
+    safeSetItem('advocate_cookie_consent', 'accepted');
     setCookieConsent(true);
     setShowConsentBanner(false);
   };
 
   const handleDeclineCookies = () => {
-    localStorage.setItem('advocate_cookie_consent', 'declined');
+    safeSetItem('advocate_cookie_consent', 'declined');
     setShowConsentBanner(false);
   };
 

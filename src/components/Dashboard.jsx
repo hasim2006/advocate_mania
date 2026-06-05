@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Users, FileText, CheckSquare, Calendar, MailOpen, Trash2, ArrowUpRight, BarChart2, Lock } from 'lucide-react';
+import { safeGetJSON, safeSetJSON } from '../utils/storage';
 import './Dashboard.css';
 
 const DASHBOARD_PIN_KEY = 'advocate_dashboard_pin';
@@ -69,12 +70,11 @@ export default function Dashboard() {
   }, []);
 
   const loadInquiries = useCallback(() => {
-    let stored = localStorage.getItem('advocate_inquiries');
-    if (!stored) {
-      localStorage.setItem('advocate_inquiries', JSON.stringify(defaultInquiries));
-      stored = JSON.stringify(defaultInquiries);
+    let parsed = safeGetJSON('advocate_inquiries', null);
+    if (parsed === null) {
+      safeSetJSON('advocate_inquiries', defaultInquiries);
+      parsed = defaultInquiries;
     }
-    const parsed = JSON.parse(stored);
     setInquiries(parsed);
     setMetrics(prev => ({
       ...prev,
@@ -113,13 +113,17 @@ export default function Dashboard() {
       }
       return inq;
     });
-    localStorage.setItem('advocate_inquiries', JSON.stringify(updated));
+    if (!safeSetJSON('advocate_inquiries', updated)) {
+      console.error('[Dashboard] Failed to persist status toggle for inquiry:', id);
+    }
     setInquiries(updated);
   };
 
   const deleteInquiry = (id) => {
     const updated = inquiries.filter(inq => inq.id !== id);
-    localStorage.setItem('advocate_inquiries', JSON.stringify(updated));
+    if (!safeSetJSON('advocate_inquiries', updated)) {
+      console.error('[Dashboard] Failed to persist deletion for inquiry:', id);
+    }
     setInquiries(updated);
     setMetrics(prev => ({
       ...prev,
