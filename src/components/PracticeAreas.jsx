@@ -1,5 +1,7 @@
 import React from 'react';
 import { Gavel, AlertCircle, HeartHandshake, Home, Coins, ArrowUpRight } from 'lucide-react';
+import SectionHeader from './SectionHeader';
+import { scrollToSectionOrTab } from '../utils/navigation';
 import './PracticeAreas.css';
 
 export default function PracticeAreas({ setActiveTab }) {
@@ -49,13 +51,11 @@ export default function PracticeAreas({ setActiveTab }) {
   return (
     <section className="practice-section" id="practice-section">
       <div className="container">
-        <div className="section-header text-center">
-          <span className="section-subtitle">Areas of Practice</span>
-          <h2 className="section-title center">Comprehensive Legal Services</h2>
-          <p className="section-desc">
-            Providing tailored litigation strategies and advisory across key divisions of Indian Law.
-          </p>
-        </div>
+        <SectionHeader
+          subtitle="Areas of Practice"
+          title="Comprehensive Legal Services"
+          description="Providing tailored litigation strategies and advisory across key divisions of Indian Law."
+        />
 
         <div className="practice-grid">
           {areas.map((area) => (
@@ -91,14 +91,7 @@ export default function PracticeAreas({ setActiveTab }) {
 
               <div className="card-footer">
                 <button 
-                  onClick={() => {
-                    const contactSec = document.getElementById('contact-section');
-                    if (contactSec) {
-                      contactSec.scrollIntoView({ behavior: 'smooth' });
-                    } else {
-                      setActiveTab('contact');
-                    }
-                  }} 
+                  onClick={() => scrollToSectionOrTab('contact-section', setActiveTab, 'contact')} 
                   className="card-cta-btn"
                 >
                   <span>Request Advice</span>

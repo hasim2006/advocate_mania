@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Users, FileText, CheckSquare, Calendar, MailOpen, Trash2, ArrowUpRight, BarChart2, Lock } from 'lucide-react';
 import { safeGetJSON, safeSetJSON } from '../utils/storage';
+import SectionHeader from './SectionHeader';
 import './Dashboard.css';
 
 const DASHBOARD_PIN_KEY = 'advocate_dashboard_pin';
@@ -172,13 +173,11 @@ export default function Dashboard() {
   return (
     <section className="dashboard-section" id="dashboard-section">
       <div className="container">
-        <div className="section-header text-center">
-          <span className="section-subtitle">Management Console</span>
-          <h2 className="section-title center">Practice Analytics & Dashboard</h2>
-          <p className="section-desc">
-            An entrepreneurial view of active operations, case calendar schedule, and inbound website client queries (Local Sync Enabled).
-          </p>
-        </div>
+        <SectionHeader
+          subtitle="Management Console"
+          title="Practice Analytics & Dashboard"
+          description="An entrepreneurial view of active operations, case calendar schedule, and inbound website client queries (Local Sync Enabled)."
+        />
 
         {/* Analytics Metric Cards Grid */}
         <div className="metrics-grid">

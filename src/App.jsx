@@ -6,6 +6,7 @@ import CaseStudies from './components/CaseStudies';
 import Dashboard from './components/Dashboard';
 import ContactForm from './components/ContactForm';
 import HelplinePanel from './components/HelplinePanel';
+import SectionHeader from './components/SectionHeader';
 import { Award, Briefcase, GraduationCap, Scale, ShieldAlert, CheckCircle2 } from 'lucide-react';
 import { safeGetItem, safeSetItem } from './utils/storage';
 import './App.css';
@@ -76,12 +77,12 @@ export default function App() {
             {/* About / Professional Bio Section */}
             <section className="bio-section" id="bio-section" style={{ padding: '6rem 0', backgroundColor: 'var(--bg-primary)' }}>
               <div className="container">
-                <div className="section-header text-center" style={{ marginBottom: '4rem' }}>
-                  <span className="section-subtitle">Professional Profile</span>
-                  <h2 className="section-title center">Credentials & Legal Experience</h2>
-                  <p className="section-desc">
-                    A dedication to justice, ethical representation, and strategic counsel.
-                  </p>
+                <div style={{ marginBottom: '4rem' }}>
+                  <SectionHeader
+                    subtitle="Professional Profile"
+                    title="Credentials & Legal Experience"
+                    description="A dedication to justice, ethical representation, and strategic counsel."
+                  />
                 </div>
 
                 <div className="bio-grid" style={{ display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: '4rem', alignItems: 'center' }}>

@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, MessageSquare, X, Send, User, ChevronUp } from 'lucide-react';
-import { safeGetJSON, safeSetJSON } from '../utils/storage';
-import { sanitizeText, isValidIndianPhone, sanitizeForUrl } from '../utils/sanitize';
+import { Phone, MessageSquare, X, Send, User, ChevronUp, CheckCircle2 } from 'lucide-react';
+import { isValidIndianPhone, sanitizeForUrl } from '../utils/sanitize';
+import advocateConfig from '../utils/advocateConfig';
+import { saveInquiry } from '../utils/inquiryService';
 import './HelplinePanel.css';
 
 export default function HelplinePanel() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('call'); // 'call' or 'chat'
   
-  const advocateName = import.meta.env.VITE_ADVOCATE_NAME || 'Shivam Chaturvedi';
-  const advocatePhone = import.meta.env.VITE_ADVOCATE_PHONE || '+91 75100 91599';
-  const advocatePhoneRaw = import.meta.env.VITE_ADVOCATE_PHONE_RAW || '7510091599';
+  const { name: advocateName, phone: advocatePhone, phoneRaw: advocatePhoneRaw } = advocateConfig;
 
   // Callback form state
   const [cbName, setCbName] = useState('');
@@ -20,7 +19,7 @@ export default function HelplinePanel() {
 
   // Chatbot state
   const [chatMessages, setChatMessages] = useState([
-    { sender: 'bot', text: `Namaste! Welcome to ${import.meta.env.VITE_ADVOCATE_NAME || 'Shivam Chaturvedi'} Law Chambers. How can we assist you with your legal matters today?` }
+    { sender: 'bot', text: `Namaste! Welcome to ${advocateConfig.name} Law Chambers. How can we assist you with your legal matters today?` }
   ]);
   const [userMsg, setUserMsg] = useState('');
 
@@ -49,32 +48,18 @@ export default function HelplinePanel() {
       return;
     }
 
-    const newInquiry = {
-      id: 'cb-' + Date.now(),
-      name: sanitizeText(cbName),
-      phone: sanitizeText(cbPhone),
+    const result = saveInquiry({
+      name: cbName,
+      phone: cbPhone,
       email: 'Requested via Callback Widget',
-      subject: `Immediate Callback - ${sanitizeText(cbType)}`,
-      message: `Client requested a quick callback regarding ${sanitizeText(cbType)} matters. Contact ASAP.`,
-      date: new Date().toLocaleDateString('en-IN', {
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      }),
-      status: 'unread'
-    };
-
-    // Save to localStorage so it syncs with Dashboard!
-    const existing = safeGetJSON('advocate_inquiries', []);
-    if (!safeSetJSON('advocate_inquiries', [newInquiry, ...existing])) {
+      subject: `Immediate Callback - ${cbType}`,
+      message: `Client requested a quick callback regarding ${cbType} matters. Contact ASAP.`,
+      idPrefix: 'cb',
+    });
+    if (!result.success) {
       console.error('[HelplinePanel] Failed to persist callback request');
       return;
     }
-
-    // Dispatch event to trigger dashboard update if it is open!
-    window.dispatchEvent(new Event('inquiry_submitted'));
 
     setCbSubmitted(true);
     setCbName('');
