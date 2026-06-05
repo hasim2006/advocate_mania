@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Phone, Mail, MapPin, Clock, ShieldCheck, CheckCircle } from 'lucide-react';
+import { sanitizeText, isValidIndianPhone } from '../utils/sanitize';
 import './ContactForm.css';
 
 export default function ContactForm() {
@@ -26,9 +27,7 @@ export default function ContactForm() {
       return;
     }
     
-    // Simple 10-digit Indian mobile validation
-    const phoneRegex = /^[6-9]\d{9}$/;
-    if (!phoneRegex.test(phone)) {
+    if (!isValidIndianPhone(phone)) {
       setError('Please enter a valid 10-digit Indian mobile number.');
       return;
     }
@@ -38,14 +37,14 @@ export default function ContactForm() {
       return;
     }
 
-    // Save inquiry to localStorage
+    // Save inquiry to localStorage (sanitize before persisting)
     const newInquiry = {
       id: 'inq-' + Date.now(),
-      name,
-      phone,
-      email: email || 'Not Provided',
-      subject: `Inquiry: ${practiceArea}`,
-      message,
+      name: sanitizeText(name),
+      phone: sanitizeText(phone),
+      email: email ? sanitizeText(email) : 'Not Provided',
+      subject: `Inquiry: ${sanitizeText(practiceArea)}`,
+      message: sanitizeText(message),
       date: new Date().toLocaleDateString('en-IN', {
         day: '2-digit',
         month: 'short',

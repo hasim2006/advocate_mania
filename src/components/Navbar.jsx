@@ -64,7 +64,7 @@ export default function Navbar({ activeTab, setActiveTab, theme, toggleTheme }) 
             {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
           </button>
           
-          <a href={`tel:+91${advocatePhoneRaw}`} className="btn btn-primary nav-cta">
+          <a href={`tel:+91${advocatePhoneRaw}`} className="btn btn-primary nav-cta" rel="noopener noreferrer">
             <PhoneCall size={16} />
             <span>{advocatePhone}</span>
           </a>
@@ -91,7 +91,7 @@ export default function Navbar({ activeTab, setActiveTab, theme, toggleTheme }) 
               {item.label}
             </button>
           ))}
-          <a href={`tel:+91${advocatePhoneRaw}`} className="btn btn-primary mobile-cta">
+          <a href={`tel:+91${advocatePhoneRaw}`} className="btn btn-primary mobile-cta" rel="noopener noreferrer">
             <PhoneCall size={16} />
             <span>Call: {advocatePhone}</span>
           </a>
