@@ -1,9 +1,11 @@
 import React from 'react';
 import { Award, CheckCircle, Scale, ShieldAlert, ArrowRight } from 'lucide-react';
+import advocateConfig from '../utils/advocateConfig';
+import { scrollToSectionOrTab } from '../utils/navigation';
 import './Hero.css';
 
 export default function Hero({ setActiveTab }) {
-  const advocateName = import.meta.env.VITE_ADVOCATE_NAME || 'Shivam Chaturvedi';
+  const advocateName = advocateConfig.name;
   const nameUpper = advocateName.toUpperCase();
 
   return (
@@ -31,28 +33,14 @@ export default function Hero({ setActiveTab }) {
 
           <div className="hero-actions">
             <button 
-              onClick={() => {
-                const contactSec = document.getElementById('contact-section');
-                if (contactSec) {
-                  contactSec.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                  setActiveTab('contact');
-                }
-              }} 
+              onClick={() => scrollToSectionOrTab('contact-section', setActiveTab, 'contact')} 
               className="btn btn-primary btn-lg"
             >
               <span>Schedule Consultation</span>
               <ArrowRight size={18} />
             </button>
             <button 
-              onClick={() => {
-                const practiceSec = document.getElementById('practice-section');
-                if (practiceSec) {
-                  practiceSec.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                  setActiveTab('practice');
-                }
-              }} 
+              onClick={() => scrollToSectionOrTab('practice-section', setActiveTab, 'practice')} 
               className="btn btn-secondary btn-lg"
             >
               <span>Explore Practice Areas</span>

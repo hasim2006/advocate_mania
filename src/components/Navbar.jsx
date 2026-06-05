@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { Shield, Menu, X, Sun, Moon, PhoneCall } from 'lucide-react';
+import advocateConfig from '../utils/advocateConfig';
 import './Navbar.css';
 
 export default function Navbar({ activeTab, setActiveTab, theme, toggleTheme }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const advocateName = import.meta.env.VITE_ADVOCATE_NAME || 'Shivam Chaturvedi';
-  const advocatePhone = import.meta.env.VITE_ADVOCATE_PHONE || '+91 75100 91599';
-  const advocatePhoneRaw = import.meta.env.VITE_ADVOCATE_PHONE_RAW || '7510091599';
+  const { name: advocateName, phone: advocatePhone, phoneRaw: advocatePhoneRaw } = advocateConfig;
 
   const nameParts = advocateName.split(' ');
   const firstName = nameParts[0].toUpperCase();
