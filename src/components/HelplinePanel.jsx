@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, MessageSquare, X, Send, User, ChevronUp } from 'lucide-react';
+import { Phone, MessageSquare, X, Send, User, ChevronUp, CheckCircle2 } from 'lucide-react';
 import { safeGetJSON, safeSetJSON } from '../utils/storage';
 import { sanitizeText, isValidIndianPhone, sanitizeForUrl } from '../utils/sanitize';
 import './HelplinePanel.css';
