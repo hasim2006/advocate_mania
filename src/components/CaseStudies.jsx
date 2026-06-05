@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FileText, Send, Calendar, CheckCircle2, ChevronRight, Play, Square, Award } from 'lucide-react';
+import SectionHeader from './SectionHeader';
 import './CaseStudies.css';
 
 export default function CaseStudies() {
@@ -97,13 +98,11 @@ export default function CaseStudies() {
   return (
     <section className="cases-section" id="cases-section">
       <div className="container">
-        <div className="section-header text-center">
-          <span className="section-subtitle">Case Flow & Experience</span>
-          <h2 className="section-title center">How Litigation Works in India</h2>
-          <p className="section-desc">
-            Understand the typical milestones of a legal matter in the Indian Judicial System, alongside summary highlights of solved disputes.
-          </p>
-        </div>
+        <SectionHeader
+          subtitle="Case Flow & Experience"
+          title="How Litigation Works in India"
+          description="Understand the typical milestones of a legal matter in the Indian Judicial System, alongside summary highlights of solved disputes."
+        />
 
         {/* Animated Case Flow Interactive Section */}
         <div className="case-flow-box">

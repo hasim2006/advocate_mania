@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Phone, Mail, MapPin, Clock, ShieldCheck, CheckCircle } from 'lucide-react';
-import { safeGetJSON, safeSetJSON } from '../utils/storage';
-import { sanitizeText, isValidIndianPhone } from '../utils/sanitize';
+import { isValidIndianPhone } from '../utils/sanitize';
+import SectionHeader from './SectionHeader';
+import { saveInquiry } from '../utils/inquiryService';
 import './ContactForm.css';
 
 export default function ContactForm() {
@@ -38,33 +39,17 @@ export default function ContactForm() {
       return;
     }
 
-    // Save inquiry to localStorage (sanitize before persisting)
-    const newInquiry = {
-      id: 'inq-' + Date.now(),
-      name: sanitizeText(name),
-      phone: sanitizeText(phone),
-      email: email ? sanitizeText(email) : 'Not Provided',
-      subject: `Inquiry: ${sanitizeText(practiceArea)}`,
-      message: sanitizeText(message),
-      date: new Date().toLocaleDateString('en-IN', {
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      }),
-      status: 'unread'
-    };
-
-    const existing = safeGetJSON('advocate_inquiries', []);
-    const saved = safeSetJSON('advocate_inquiries', [newInquiry, ...existing]);
-    if (!saved) {
+    const result = saveInquiry({
+      name,
+      phone,
+      email,
+      subject: `Inquiry: ${practiceArea}`,
+      message,
+    });
+    if (!result.success) {
       setError('Failed to save inquiry. Storage may be full — please try again later.');
       return;
     }
-
-    // Dispatch custom event to notify Dashboard if loaded
-    window.dispatchEvent(new Event('inquiry_submitted'));
 
     setSubmitted(true);
     setName('');
@@ -77,13 +62,11 @@ export default function ContactForm() {
   return (
     <section className="contact-section" id="contact-section">
       <div className="container">
-        <div className="section-header text-center">
-          <span className="section-subtitle">Chambers Connect</span>
-          <h2 className="section-title center">Contact Advocate Shivam Chaturvedi</h2>
-          <p className="section-desc">
-            Schedule a legal consultation or submit an inquiry to our office in Ballia, Uttar Pradesh.
-          </p>
-        </div>
+        <SectionHeader
+          subtitle="Chambers Connect"
+          title="Contact Advocate Shivam Chaturvedi"
+          description="Schedule a legal consultation or submit an inquiry to our office in Ballia, Uttar Pradesh."
+        />
 
         <div className="contact-grid">
           {/* Contact Details Column */}
