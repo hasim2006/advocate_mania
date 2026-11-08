@@ -1,5 +1,5 @@
 {
-  "name": "new-folder",
+  "name": "advocate-mania",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -32,5 +32,8 @@
     "jsdom": "^28.1.0",
     "vite": "^8.0.12",
     "vitest": "^4.1.8"
-  }
+  },
+  "description": "Legal AI consultation assistant and case document drafting workflow platform.",
+  "author": "Mohammad Hasim <hasimsaudagar3@gmail.com>",
+  "homepage": "https://github.com/hasim2006/advocate_mania"
 }
