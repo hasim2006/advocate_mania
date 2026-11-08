@@ -1,16 +1,47 @@
-# React + Vite
+# Advocate Mania — Legal Consultation & Workflow Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![React](https://img.shields.io/badge/React-18-blue.svg)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-5-purple.svg)](https://vitejs.dev/)
 
-Currently, two official plugins are available:
+A modern, responsive legal assistance and practice management platform engineered with React, Vite, Lucide Icons, and client-side persistence. Designed for advocates, legal consultants, and clients seeking rapid case triage and structured consultation workflows.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Key Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Practice Area Explorer:** Interactive categorization covering Constitutional Law, Criminal Defense, Corporate Law, Family Law, and Cyber Jurisprudence.
+- **Client Case Studies:** Structured case outcomes, precedents, and success metrics with interactive filtering.
+- **Consultation Booking & Contact Portal:** Automated intake form capturing case details, urgency tiers, and contact preferences.
+- **Emergency Helpline Panel:** Direct hotline integration for rapid legal aid and immediate advisory access.
+- **Client-Side Telemetry & Storage:** Resilient local storage adapters ensuring intake state preservation across sessions.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Tech Stack
+
+- **Frontend:** React 18, Vite 5, CSS3
+- **Icons:** Lucide React
+- **Architecture:** Component-driven modular design
+
+---
+
+## Quickstart
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/hasim2006/advocate_mania.git
+cd advocate_mania
+
+# 2. Install dependencies
+npm install
+
+# 3. Start development server
+npm run dev
+```
+
+---
+
+## License
+
+This project is licensed under the MIT License.
